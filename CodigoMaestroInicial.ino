@@ -1,5 +1,5 @@
-#include <SoftwareSerial.h>
-#include <Wire.h>
+#include <SoftwareSerial.h> //Para la comunicación con el serial
+#include <Wire.h> 
 #include "RTClib.h"
 #include <math.h>
 
