@@ -22,7 +22,7 @@ void setup() {
   rtc.begin();
 
   // SOLO UNA VEZ para ajustar el RTC
-  // rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+  rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
 }
 
 void loop() {
