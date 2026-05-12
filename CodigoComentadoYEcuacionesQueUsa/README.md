@@ -1,6 +1,6 @@
 ## **Código Maestro**
 
-Este arduino tiene la conexión con el Arduino Esclavo, usando una conexión del tipo RX,TX, con los pines digitales 2 y 3.
+En este código el arduino tiene la conexión con el Arduino Esclavo, usando una conexión del tipo RX,TX, con los pines digitales 2 y 3. Además de que esta encargado de realizar todo el análisis, es como el cerebro del sistema. 
 
 Y para comenzar es nesario, definir la latitud de Medellín, la cual se reporta en grados como $6.24°$, por lo que es necesario pasarla a radiones. Luego, la rutina setup, se cersiora de realizar unacomunicación con el serial, el esclavo y el rtc, actualizando el rtc a la hora actual del momento que cuando se carga el código.
 
@@ -14,5 +14,17 @@ Se presenta la ecuación de Cooper (1969) para calcular la declinación solar $\
 * Azimut solar: usando la ecuación \(\cos (A)=\frac{\sin (\delta )-\sin (\alpha )\cdot \sin (\phi )}{\cos (\alpha )\cdot \cos (\phi )}\).
 
 Así, se les da a los servos la posición en elevación y azimut solar, para después leer los resultados de luz capatada por el fotodiodo. E imprimir en el serial, la hora, luz, y la posisicón del servo horizontal y del vertical. Y finalmente enviar al arduino esclavo la posición de los servos. 
+
+## **Código maestro**
+
+El código del Arduino esclavo se encarga de recibir desde el Arduino maestro las posiciones objetivo para los servomotores y moverlos de manera suave y controlada. Primero establece una comunicación serial usando la librería SoftwareSerial, por donde recibe mensajes con el formato "anguloHorizontal,anguloVertical". Cada mensaje enviado por el maestro contiene los ángulos que deben tomar el servo horizontal y el servo vertical.
+
+En el programa, el esclavo lee carácter por carácter la información recibida hasta encontrar un salto de línea (\n), lo que indica que el mensaje llegó completo. Luego separa los datos usando la coma como referencia y convierte cada valor a enteros para almacenarlos como posiciones objetivo (targetH y targetV).
+
+Después, el código implementa un sistema de suavizado o movimiento incremental. En lugar de mover los servos directamente a la posición final, compara la posición actual del servo con la posición deseada y avanza poco a poco usando pequeños incrementos definidos por la variable stepSize. Esto permite que el movimiento sea más fluido, evita vibraciones bruscas y reduce el esfuerzo mecánico sobre los servomotores.
+
+Finalmente, el Arduino actualiza continuamente las posiciones de ambos servos horizontal y vertical, logrando que la estructura del sistema autoguiado siga la posición calculada por el maestro de forma estable y suave.
+
+
 
 
