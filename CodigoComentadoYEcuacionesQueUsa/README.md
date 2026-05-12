@@ -15,7 +15,7 @@ Se presenta la ecuación de Cooper (1969) para calcular la declinación solar $\
 
 Así, se les da a los servos la posición en elevación y azimut solar, para después leer los resultados de luz capatada por el fotodiodo. E imprimir en el serial, la hora, luz, y la posisicón del servo horizontal y del vertical. Y finalmente enviar al arduino esclavo la posición de los servos. 
 
-## **Código maestro**
+## **Código esclavo**
 
 El código del Arduino esclavo se encarga de recibir desde el Arduino maestro las posiciones objetivo para los servomotores y moverlos de manera suave y controlada. Primero establece una comunicación serial usando la librería SoftwareSerial, por donde recibe mensajes con el formato "anguloHorizontal,anguloVertical". Cada mensaje enviado por el maestro contiene los ángulos que deben tomar el servo horizontal y el servo vertical.
 
