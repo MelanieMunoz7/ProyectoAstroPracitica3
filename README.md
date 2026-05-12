@@ -6,5 +6,5 @@ https://gorkem.cc/projects/StarTrack/
 Solar Tracker: 
 https://www.instructables.com/Build-a-Dual-Axis-Solar-Tracker-Using-Arduino/
 
-Referencias fotofiodo:
+Referencias fotodiodo:
 https://www.thorlabs.com/item/FDS100
