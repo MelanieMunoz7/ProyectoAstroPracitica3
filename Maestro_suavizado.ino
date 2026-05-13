@@ -60,8 +60,26 @@ void loop() {
   posH = constrain(posH, 20, 160);
   posV = constrain(posV, 20, 160);
 
-  // -------- LEER SENSOR --------
-  int light = analogRead(sensor);
+  /* --- Nuevas constantes para el cálculo --- */
+  const float RL = 100000.0;        // 100k Ohms
+  const float RESPONSIVIDAD = 0.62; // Amperios por Vatio (A/W) para el FDS100
+  const float AREA_M2 = 1.37e-5;    // Área activa de 13.7 mm^2 convertida a m^2
+  
+  int lectura = analogRead(sensor); 
+  
+  // 1. Convertir lectura de bits a Voltaje real
+  float voltaje = lectura * (5.0 / 1023.0);
+  
+  // 2. Calcular la corriente generada (Ley de Ohm)
+  float corriente = voltaje / RL;
+  
+  // 3. Calcular la potencia recibida en el sensor (W)
+  float potenciaW = corriente / RESPONSIVIDAD;
+  
+  // 4. Calcular Irradiancia (W/m^2)
+  float irradiancia = potenciaW / AREA_M2;
+  
+
 
   // -------- MOSTRAR EN MONITOR SERIAL (PC) --------
   Serial.print("Hora: ");
@@ -69,9 +87,9 @@ void loop() {
   Serial.print(now.hour()); Serial.print(':');
   if(now.minute() < 10) Serial.print('0');
   Serial.print(now.minute());
-  
-  Serial.print(" | Luz: ");
-  Serial.print(light);
+
+  Serial.print(" | Luz (W/m2): ");
+  Serial.println(irradiancia);
   
   Serial.print(" | Azim: ");
   Serial.print(azim);
