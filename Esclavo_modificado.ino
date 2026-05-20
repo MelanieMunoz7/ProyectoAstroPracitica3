@@ -5,12 +5,12 @@ SoftwareSerial maestro(2, 3);
 Servo servoH;
 Servo servoV;
 
-// Variables para suavizado
-int targetH = 90;
-int targetV = 90;
+// Posiciones iniciales de calibración (Fijadas en el Norte)
+int targetH = 90; // 90° será físicamente el Norte magnético/geográfico
+int targetV = 20; // Horizonte bajo
 float currentH = 90;
-float currentV = 90;
-float stepSize = 0.05; // AJUSTA ESTO: Menor número = más lento/suave
+float currentV = 20;
+float stepSize = 0.15; // Un poco más rápido para responder ágilmente al arrancar
 
 String data = "";
 
@@ -21,8 +21,14 @@ void setup() {
   servoH.attach(9);
   servoV.attach(10);
   
-  servoH.write(currentH);
-  servoV.write(currentV);
+  // === RUTINA DE CENTRADO AL NORTE ===
+  Serial.println("INICIANDO CALIBRACIÓN: Moviendo al Norte...");
+  servoH.write(targetH);
+  servoV.write(targetV);
+  
+  // Bloqueo de 6 segundos para que acomodes la estructura físicamente hacia el norte con una brújula
+  delay(6000); 
+  Serial.println("Calibración completada. Sistema listo.");
 }
 
 void loop() {
@@ -42,19 +48,17 @@ void loop() {
   }
 
   // 2. Lógica de suavizado (Movimiento incremental)
-  // Movimiento Horizontal
-  if (abs(targetH - currentH) > 0.1) {
+  if (abs(targetH - currentH) > 0.5) {
     if (currentH < targetH) currentH += stepSize;
     else currentH -= stepSize;
     servoH.write((int)currentH);
   }
 
-  // Movimiento Vertical
-  if (abs(targetV - currentV) > 0.1) {
+  if (abs(targetV - currentV) > 0.5) {
     if (currentV < targetV) currentV += stepSize;
     else currentV -= stepSize;
     servoV.write((int)currentV);
   }
 
-  delay(15); // Pequeña pausa para dar tiempo al servo y controlar la velocidad total
+  delay(15); 
 }
