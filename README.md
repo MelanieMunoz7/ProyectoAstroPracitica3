@@ -10,3 +10,5 @@ Referencias fotodiodo:
 https://www.thorlabs.com/item/FDS100
 
 Refencias Ecuaciones del código Cooper (1996): https://www.sciencedirect.com/science/article/abs/pii/0038092X69900474?via%3Dihub
+
+Master Slave I2C: https://projecthub.arduino.cc/PIYUSH_K_SINGH/master-slave-i2c-connection-31a095
